@@ -1,66 +1,100 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+После клонирования Laravel-проекта с GitHub необходимо выполнить несколько шагов, чтобы он корректно работал. Routes будут описаны в самом низу.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### 1. **Склонировать репозиторий**
+```sh
+git clone https://github.com/https://github.com/cellphonezzz/ciberia
+cd твой-репозиторий
+```
 
-## About Laravel
+### 2. **Отредактировать .env файл**
+При выгрузке проекта на гит я не стал добавлять gitignore, поэтому просто отредактируйте .env с указанием вашей бд.
+В репозитории файл `.env` не хранится (он в `.gitignore`), поэтому нужно создать его, скопировав `.env.example`:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 3. **Установить зависимости**
+```sh
+composer install
+```
+Для корректного отображения страниц breeze.
+```sh
+npm install
+npm run build
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 4. **Сгенерировать APP_KEY**
+```sh
+php artisan key:generate
+```
 
-## Learning Laravel
+### 5. **Настроить .env (база данных и т.д.)**
+Открыть `.env` и настроить:
+```ini
+APP_NAME="Название проекта"
+APP_ENV=local
+APP_KEY=ключ-сгенерируется
+APP_DEBUG=true
+APP_URL=http://localhost
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=имя_базы
+DB_USERNAME=пользователь
+DB_PASSWORD=пароль
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 6. **Запустить миграции и сиды**
+```sh
+php artisan migrate --seed
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 8. **Запустить локальный сервер**
+```sh
+php artisan serve
+```
+Открыть в браузере: `http://127.0.0.1:8000`
 
-## Laravel Sponsors
+### 9. **(Дополнительно) Описание маршрутов**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Прежде чем пробовать редактировать посты через api, необходимо указать связь пользователя с автором. Сделать это можно перейдя в http://127.0.0.1:8000/profile/ и выбрать из предложенных авторов через select. Так же учитывайте, что используются токены, поэтому учитывайте это при тестировании api.
 
-### Premium Partners
+Админ панель:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+/admin/ - доступ к админке (админка доступна с обычного пользователя, чтобы не усложнять вам тестирование. Для доступа необходимо авторизоваться.)
 
-## Contributing
+/admin/authors - доступ к авторам в админ панели
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+/admin/books - доступ к книгам в админ панели
 
-## Code of Conduct
+/admin/genres - доступ к книгам в админ панели
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+api: 
 
-## Security Vulnerabilities
+Авторизация: 
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+/api/login - логин, параметры { email, password }
 
-## License
+/api/register - создание аккаунта, параметры {name, email, password }
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+/api/logout/ - необходимо быть авторизованным. 
+
+API routes для авторов, жанров и книг:
+
+api/books/ - просмотр всех книг, определенной, удаление, обновление.
+
+api/books/{$books->id} get
+
+api/books/{$books->id} put
+
+api/books/{$books->id} delete
+
+
+api/genres/ - реализован только индекс.
+
+api/authors/ -  реализован показ всех авторов, конкретного автора и обновления автора.
+
+api/authors/{$author->id} get
+
+api/authors/{$author->id} put
+
+

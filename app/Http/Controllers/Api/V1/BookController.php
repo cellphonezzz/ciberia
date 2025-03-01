@@ -55,7 +55,7 @@ class BookController extends Controller
             return response()->json(['message' => 'Book not found'], 404);
         }
 
-        if (auth()->user()->author_id !== $book->author->id) {
+        if (auth()->user() && auth()->user()->author_id !== $book->author->id) {
             return response()->json(['message' => 'You are not authorized to delete this book'], 403);
         }
 

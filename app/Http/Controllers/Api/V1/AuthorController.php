@@ -49,7 +49,7 @@ class AuthorController extends Controller
      */
     public function update(Request $request, Author $author)
     {
-        if (auth()->user()->author_id !== $author->id) {
+        if (auth()->user() && auth()->user()->author_id !== $author->id) {
             return response()->json(['message' => 'You can only update your own data'], 403);
         }
 

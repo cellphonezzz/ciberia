@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->string('type')->nullable(); // Храним Enum как строку
+            $table->string('type')->default('printed'); // Храним Enum как строку
         });
     }
 
